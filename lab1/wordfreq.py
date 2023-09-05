@@ -41,4 +41,4 @@ def printTopMost(frequencies, n):
     sortedFrequencies = dict(sorted(frequencies.items(), key=lambda x: -x[1]))
     for idx, word in enumerate(sortedFrequencies):
         if (idx >= n): break
-        print(word.ljust(20), frequencies.get(word))
+        print(word.ljust(20)+str(frequencies.get(word)).rjust(5))
