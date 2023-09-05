@@ -11,7 +11,7 @@ def main():
     stopWordsLines = stopWordsFile.read().split('\n')
     stopWordsFile.close()
 
-    if (text.startswith("http://")):
+    if (text.startswith("http://") or text.startswith("https://")):
         response = urllib.request.urlopen(sys.argv[2])
         textLines = response.read().decode("utf8").splitlines()
     else:
@@ -23,4 +23,5 @@ def main():
     frequencies = wordfreq.countWords(words, stopWordsLines)
     wordfreq.printTopMost(frequencies, int(numberOfWords))
     
-main()
+if __name__ == "__main__":
+    main()
