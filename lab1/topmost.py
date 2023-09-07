@@ -6,18 +6,20 @@ stopWords = sys.argv[1]
 text = sys.argv[2]
 numberOfWords = sys.argv[3]
 
+def readFile(fileName):
+    file = open(fileName, encoding="utf-8")
+    lines = file.read().split('\n')
+    file.close()
+    return lines
+
 def main():
-    stopWordsFile = open(stopWords, encoding="utf-8")
-    stopWordsLines = stopWordsFile.read().split('\n')
-    stopWordsFile.close()
+    stopWordsLines = readFile(stopWords)
 
     if (text.startswith("http://") or text.startswith("https://")):
         response = urllib.request.urlopen(sys.argv[2])
         textLines = response.read().decode("utf8").splitlines()
     else:
-        textFile = open(text, encoding="utf-8")
-        textLines = textFile.read().split('\n')
-        textFile.close()
+        textLines = readFile(text)
     
     words = wordfreq.tokenize(textLines)
     frequencies = wordfreq.countWords(words, stopWordsLines)
