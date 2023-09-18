@@ -16,7 +16,7 @@ def main():
     stopWordsLines = readFile(stopWords)
 
     if (text.startswith("http://") or text.startswith("https://")):
-        response = urllib.request.urlopen(sys.argv[2])
+        response = urllib.request.urlopen(text)
         textLines = response.read().decode("utf8").splitlines()
     else:
         textLines = readFile(text)
