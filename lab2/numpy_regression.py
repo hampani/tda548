@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 from numpy import *
 import sys
 
-
 def powers(row, start, end):
     new_row = []
     for number in row:
@@ -11,7 +10,6 @@ def powers(row, start, end):
             rows.append(number ** element)
         new_row.append(rows)
     return array(new_row)
-
 
 def poly(a, X):
     result = []
@@ -22,13 +20,11 @@ def poly(a, X):
         result.append(Y2)
     return result
 
-
 data = loadtxt(sys.argv[1])
 n = int(sys.argv[2])
 
 X = data[:, 0]
 Y = data[:, 1]
-
 
 Xp = powers(X, 0, n)
 Yp = powers(Y, 1, 1)
@@ -38,8 +34,6 @@ a = matmul(linalg.inv(matmul(Xpt, Xp)), matmul(Xpt, Yp))
 a = a[:, 0]
 
 X2 = linspace((X[0]), (X[-1]), int((X[-1]-X[0])/0.2)).tolist()
-
-
 Y2 = poly(a, X2)
 
 plt.plot(X, Y, 'ro')

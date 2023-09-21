@@ -14,7 +14,6 @@ Xpt = transpose(Xp)
 
 [[b], [m]] = matmul(invert(matmul(Xpt, Xp)), matmul(Xpt, Yp))
 
-
 chirps = b + m * X
 
 plt.plot(X, Y, 'ro')

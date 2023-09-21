@@ -12,7 +12,6 @@ def transpose(matrix):
         new_row.append(rows)
     return new_row
 
-
 def powers(row, start, end):
     new_row = []
     for number in row:
@@ -21,7 +20,6 @@ def powers(row, start, end):
             rows.append(number ** element)
         new_row.append(rows)
     return new_row
-
 
 def matmul(matrix1, matrix2):
 
@@ -37,9 +35,7 @@ def matmul(matrix1, matrix2):
         for j in range(column2):
             for k in range(column1):
                 new_row[i][j] += matrix1[i][k]*matrix2[k][j]
-
     return new_row
-
 
 def invert(matrix):
     det = matrix[0][0]*matrix[1][1]-matrix[0][1]*matrix[1][0]
@@ -49,7 +45,6 @@ def invert(matrix):
            [-matrix[1][0] / det, matrix[0][0] / det]]
     return inv
 
-
 def loadtxt(filename):
     matrix = []
 
@@ -57,5 +52,4 @@ def loadtxt(filename):
         for line in file:
             row = [float(num) for num in line.strip().split('\t')]
             matrix.append(row)
-
     return matrix
