@@ -7,14 +7,13 @@ import random
 class Game:
     """ Create a game with a given size of cannon (length of sides) and projectiles (radius) """
     def __init__(self, cannonSize, ballSize):
-        self.players = [Player(self, False, -90, "blue"), Player(self, True, 90, "red")]
         # TODO: "pass" means the constructor does nothing. Clearly it should be doing something.
         # HINT: This constructor needs to create two players according to the rules specified in the assignment text
         pass 
 
     """ A list containing both players """
     def getPlayers(self):
-        return self.players #TODO: this is just a dummy value
+        return [] #TODO: this is just a dummy value
 
     """ The height/width of the cannon """
     def getCannonSize(self):
@@ -57,9 +56,7 @@ class Game:
 
 """ Models a player """
 class Player:
-    def __init__(self, isShooting, position, color, _):
-        self.color = color
-        self.position = position
+   #TODO: You need to create a constructor here. 
    #HINT: It should probably take the Game that creates it as parameter and some additional properties that differ between players (like firing-direction, position and color)
     
     """ Create and return a projectile starting at the centre of this players cannon. Replaces any previous projectile for this player. """
@@ -88,11 +85,11 @@ class Player:
 
     """ Returns the color of this player (a string)"""
     def getColor(self):
-        return self.color #TODO: this is just a dummy value
+        return "DUMMY COLOR" #TODO: this is just a dummy value
 
     """ The x-position of the centre of this players cannon """
     def getX(self):
-        return self.position #TODO: this is just a dummy value
+        return 0 #TODO: this is just a dummy value
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
