@@ -1,7 +1,6 @@
 from gamemodel import *
 from graphics import *
 
-
 class GameGraphics:
     def __init__(self, game):
         self.game = game
@@ -10,27 +9,33 @@ class GameGraphics:
         self.win = GraphWin("Cannon game" , 640, 480, autoflush=False)
         self.win.setCoords(-110, -10, 110, 155)
         
-        # draw the terrain
-        # TODO: Draw a line from (-110,0) to (110,0)
+        line = Line(Point(-110, 0), Point(110, 0))
+        line.draw(self.win)
 
         self.draw_cannons = [self.drawCanon(0), self.drawCanon(1)]
         self.draw_scores  = [self.drawScore(0), self.drawScore(1)]
         self.draw_projs   = [None, None]
+        self.draw_explosion = None
 
     def drawCanon(self,playerNr):
-        # draw the cannon
-        # TODO: draw a square with the size of the cannon with the color
-        # and the position of the player with number playerNr.
-        # After the drawing, return the rectangle object.
-        return None
+        player = self.game.getPlayers()[playerNr]
+        cannonSize = self.game.getCannonSize()
+        color = player.getColor()
+        position = player.getX()
+
+        cannon = Rectangle(Point(position - cannonSize / 2, 0), Point(position + cannonSize / 2, cannonSize))
+        cannon.setFill(color)
+        cannon.draw(self.win)
+
+        return cannon
 
     def drawScore(self,playerNr):
-        # draw the score
-        # TODO: draw the text "Score: X", where X is the number of points
-        # for player number playerNr. The text should be placed under
-        # the corresponding cannon. After the drawing,
-        # return the text object.
-        return None
+        player = self.game.getPlayers()[playerNr]        
+        position = player.getX()
+        text = Text(Point(position, -5), f"Score: {player.getScore()}")
+        text.draw(self.win)
+    
+        return text
 
     def fire(self, angle, vel):
         player = self.game.getCurrentPlayer()
@@ -39,12 +44,14 @@ class GameGraphics:
         circle_X = proj.getX()
         circle_Y = proj.getY()
 
-        # TODO: If the circle for the projectile for the current player
-        # is not None, undraw it!
 
-        # draw the projectile (ball/circle)
-        # TODO: Create and draw a new circle with the coordinates of
-        # the projectile.
+        if self.draw_projs[self.game.getCurrentPlayerNumber()] != None:
+            self.draw_projs[self.game.getCurrentPlayerNumber()].undraw()
+
+        circle = Circle(Point(player.getX(), self.game.getCannonSize() / 2), self.game.getBallSize())
+        circle.setFill(player.getColor())
+        circle.draw(self.win)
+     
 
         while proj.isMoving():
             proj.update(1/50)
@@ -57,12 +64,18 @@ class GameGraphics:
 
             update(50)
 
+        circle.undraw()
         return proj
 
     def updateScore(self,playerNr):
-        # update the score on the screen
-        # TODO: undraw the old text, create and draw a new text
-        pass
+        player = self.game.getPlayers()[playerNr]
+        self.draw_scores[playerNr].undraw()
+
+        position = player.getX()
+        text = Text(Point(position, -5), f"Score: {player.getScore()}")
+        text.draw(self.win)
+
+        self.draw_scores[playerNr] = text
 
     def play(self):
         while True:
@@ -86,11 +99,25 @@ class GameGraphics:
 
             if distance == 0.0:
                 player.increaseScore()
+                self.explode(other, player)
                 self.updateScore(self.game.getCurrentPlayerNumber())
                 self.game.newRound()
 
             self.game.nextPlayer()
+    def explode(self, hitPlayer, shootingPlayer):
+        position = hitPlayer.getX()
 
+        radius = self.game.getBallSize()
+        while radius < self.game.getCannonSize() * 2:
+            circle = Circle(Point(position, self.game.getCannonSize() / 2), radius)
+            circle.setFill(shootingPlayer.getColor())
+            circle.draw(self.win)
+
+            radius *= 1.1
+
+            update(50)
+
+            circle.undraw()
 
 class InputDialog:
     def __init__ (self, angle, vel, wind):
