@@ -50,6 +50,6 @@ def loadtxt(filename):
 
     with open(filename, 'r') as file:
         for line in file:
-            row = [float(num) for num in line.strip().split('\t')]
+            row = [float(num) for num in line.strip().split()]
             matrix.append(row)
     return matrix
